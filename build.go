@@ -47,9 +47,8 @@ func axisPredicate(root *axisNode) func(NodeNavigator) bool {
 				type namespaceURL interface {
 					NamespaceURL() string
 				}
-				if ns, ok := n.(namespaceURL); ok {
-					rn, ok := root.Namespaces[root.Prefix]
-					if ok && rn == ns.NamespaceURL() && root.LocalName == n.LocalName() {
+				if ns, ok := n.(namespaceURL); ok && root.hasNamespaceURI {
+					if root.LocalName == n.LocalName() && root.namespaceURI == ns.NamespaceURL() {
 						return true
 					}
 				}
