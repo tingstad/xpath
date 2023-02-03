@@ -39,9 +39,6 @@ type NodeNavigator interface {
 	// Prefix returns namespace prefix associated with the current node.
 	Prefix() string
 
-	// NamespaceURL returns namespace URL of the current node.
-	NamespaceURL() string
-
 	// Value gets the value of current node.
 	Value() string
 

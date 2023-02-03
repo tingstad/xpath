@@ -200,7 +200,15 @@ func namespaceFunc(arg query) func(query, iterator) interface{} {
 				return ""
 			}
 		}
-		return v.NamespaceURL()
+		// fix about namespace-uri() bug: https://github.com/antchfx/xmlquery/issues/22
+		// TODO: In the next version, add NamespaceURL() to the NodeNavigator interface.
+		type namespaceURL interface {
+			NamespaceURL() string
+		}
+		if f, ok := v.(namespaceURL); ok {
+			return f.NamespaceURL()
+		}
+		return v.Prefix()
 	}
 }
 

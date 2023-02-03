@@ -44,9 +44,14 @@ func axisPredicate(root *axisNode) func(NodeNavigator) bool {
 	predicate := func(n NodeNavigator) bool {
 		if typ == n.NodeType() || typ == allNode {
 			if nametest {
-				rn, ok := root.Namespaces[root.Prefix]
-				if ok && rn == n.NamespaceURL() && root.LocalName == n.LocalName() {
-					return true
+				type namespaceURL interface {
+					NamespaceURL() string
+				}
+				if ns, ok := n.(namespaceURL); ok {
+					rn, ok := root.Namespaces[root.Prefix]
+					if ok && rn == ns.NamespaceURL() && root.LocalName == n.LocalName() {
+						return true
+					}
 				}
 				if root.LocalName == n.LocalName() && root.Prefix == n.Prefix() {
 					return true
